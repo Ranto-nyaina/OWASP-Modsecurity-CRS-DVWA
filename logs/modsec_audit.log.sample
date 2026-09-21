@@ -1,0 +1,43 @@
+--a1b2c3d4-A--
+[21/Sep/2026:10:14:02 +0300] XqK9nJ8AAQEAAB1c2AAAAAA 192.168.1.10 51422 192.168.1.20 80
+--a1b2c3d4-B--
+GET /dvwa/vulnerabilities/sqli/?id=1%27+OR+%271%27%3D%271&Submit=Submit HTTP/1.1
+Host: 192.168.1.20
+User-Agent: Mozilla/5.0 (X11; Linux x86_64)
+Cookie: PHPSESSID=abc123; security=low
+
+--a1b2c3d4-F--
+HTTP/1.1 403 Forbidden
+Content-Type: text/html; charset=iso-8859-1
+
+--a1b2c3d4-H--
+Message: Warning. detected SQLi using libinjection with fingerprint 's&sos' [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "66"] [id "942100"] [msg "SQL Injection Attack Detected via libinjection"] [data "Matched Data: s&sos found within ARGS:id: 1' OR '1'='1"] [severity "CRITICAL"] [ver "OWASP_CRS/4.1.0"] [tag "attack-sqli"] [tag "paranoia-level/1"]
+Message: Access denied with code 403 (phase 2). Total inbound score: 15, SQLi score: 10, XSS score: 0
+Action: Intercepted (phase 2)
+Apache-Handler: application/x-httpd-php
+Stopwatch: 1695283 1695283 (- -)
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/4.1.0.
+Server: Apache/2.4.62 (Debian)
+--a1b2c3d4-Z--
+
+--e5f6a7b8-A--
+[21/Sep/2026:10:16:41 +0300] XqK9uZ8AAQEAAB1c2AAAAAB 192.168.1.10 51430 192.168.1.20 80
+--e5f6a7b8-B--
+GET /dvwa/vulnerabilities/xss_r/?name=%3Cscript%3Ealert%281%29%3C%2Fscript%3E HTTP/1.1
+Host: 192.168.1.20
+User-Agent: Mozilla/5.0 (X11; Linux x86_64)
+Cookie: PHPSESSID=abc123; security=low
+
+--e5f6a7b8-F--
+HTTP/1.1 403 Forbidden
+Content-Type: text/html; charset=iso-8859-1
+
+--e5f6a7b8-H--
+Message: Warning. Pattern match "<script[^>]*>[\\s\\S]*?" at ARGS:name. [file "/usr/share/modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf"] [line "34"] [id "941100"] [msg "XSS Attack Detected via libinjection"] [data "Matched Data: <script>alert(1)</script> found within ARGS:name"] [severity "CRITICAL"] [ver "OWASP_CRS/4.1.0"] [tag "attack-xss"]
+Message: Access denied with code 403 (phase 2). Total inbound score: 8, XSS score: 8
+Action: Intercepted (phase 2)
+Apache-Handler: application/x-httpd-php
+Stopwatch: 1695289 1695289 (- -)
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/4.1.0.
+Server: Apache/2.4.62 (Debian)
+--e5f6a7b8-Z--

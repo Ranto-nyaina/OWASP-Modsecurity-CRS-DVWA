@@ -1,0 +1,19 @@
+# /etc/apache2/mods-available/security2.conf
+# Configuration Apache pour activer ModSecurity + OWASP CRS
+#
+# Ce fichier est normalement créé automatiquement par le paquet
+# libapache2-mod-security2. Les lignes ci-dessous montrent ce qu'il doit
+# contenir pour que le CRS soit bien chargé. Adapter les chemins si votre
+# distribution range le CRS ailleurs (vérifier avec:
+# dpkg -L modsecurity-crs | grep conf).
+
+<IfModule security2_module>
+    SecDataDir /var/cache/modsecurity
+
+    # Charge le moteur ModSecurity et sa configuration de base
+    IncludeOptional /etc/modsecurity/modsecurity.conf
+
+    # Charge le OWASP Core Rule Set (paquet modsecurity-crs)
+    IncludeOptional /usr/share/modsecurity-crs/crs-setup.conf
+    IncludeOptional /usr/share/modsecurity-crs/rules/*.conf
+</IfModule>

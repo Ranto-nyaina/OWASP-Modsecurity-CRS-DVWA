@@ -1,0 +1,27 @@
+# /etc/modsecurity/modsecurity.conf
+# Configuration principale du moteur ModSecurity.
+# Base sur le fichier modsecurity.conf-recommended fourni par le paquet ;
+# seules les directives modifiees pour ce projet sont commentees ci-dessous.
+
+# ------------------------------------------------------------------
+# Active le blocage reel des requetes.
+# "DetectionOnly" journalise sans bloquer (utile en phase de reglage,
+# insuffisant pour une protection active) : on veut "On" en production
+# comme en demonstration.
+# ------------------------------------------------------------------
+SecRuleEngine On
+
+# Limites de taille du corps de requete inspecte (valeurs recommandees)
+SecRequestBodyAccess On
+SecRequestBodyLimit 13107200
+SecRequestBodyNoFilesLimit 131072
+
+# Journalisation d'audit : necessaire pour observer les interceptions
+SecAuditEngine RelevantOnly
+SecAuditLogRelevantStatus "^(?:5|4(?!04))"
+SecAuditLogParts ABIJDEFHZ
+SecAuditLogType Serial
+SecAuditLog /var/log/apache2/modsec_audit.log
+
+# Format des reponses bloquees
+SecDefaultAction "phase:2,deny,log,status:403"

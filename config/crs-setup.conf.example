@@ -1,0 +1,37 @@
+# /usr/share/modsecurity-crs/crs-setup.conf
+# Configuration du OWASP Core Rule Set pour ce projet.
+# Copier depuis crs-setup.conf.example fourni par le paquet, puis ajuster
+# les directives ci-dessous.
+
+# ------------------------------------------------------------------
+# Niveau de paranoia : regle le compromis detection / faux positifs.
+# PL1 = regles de base uniquement (peu de faux positifs, detection moins fine)
+# PL2 = ajoute des regles plus strictes (recommande pour ce laboratoire)
+# PL3-PL4 = tres strict, faux positifs frequents sans tuning pousse
+# ------------------------------------------------------------------
+SecAction \
+    "id:900000,\
+    phase:1,\
+    nolog,\
+    pass,\
+    t:none,\
+    setvar:tx.paranoia_level=2"
+
+# Seuil d'anomalie au dela duquel une requete est bloquee
+SecAction \
+    "id:900110,\
+    phase:1,\
+    nolog,\
+    pass,\
+    t:none,\
+    setvar:tx.inbound_anomaly_score_threshold=5,\
+    setvar:tx.outbound_anomaly_score_threshold=4"
+
+# Nom de l'application (apparait dans les logs)
+SecAction \
+    "id:900990,\
+    phase:1,\
+    nolog,\
+    pass,\
+    t:none,\
+    setvar:tx.crs_setup_version=410"
